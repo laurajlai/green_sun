@@ -1,0 +1,1 @@
+July 24: files represent Green Sun Alpha, where all assets (i.e. block, player) are independent. This will change in Green Sun Beta, where all assets will inherit from the superclass Asset. 
