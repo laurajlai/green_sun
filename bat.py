@@ -1,17 +1,15 @@
 from asset import Asset
 
-# Flower class
-class Flower(Asset):
-    def __init__(self, block_image):
-        super().__init__(block_image, 446, 400, 1)
-        self.taken = False
-        self.move_size = 4
-        self.max = 300
-        self.min = 30
+# Bat class
+class Bat(Asset):
+    def __init__(self, bat_image, move_size):
+        super().__init__(bat_image, 400, 300, 0.4)
+        self.move_size = move_size
+        self.max = 500
+        self.min = 0
         self.moving_down = True
-   
-
-        # the bat moves up and down (observing the ground, of course)
+    
+    # the bat moves up and down (observing the ground, of course)
     def move(self):
         # Move downward
         if self.moving_down:
@@ -30,13 +28,14 @@ class Flower(Asset):
         # Update rect after movement
         self.rect = self.actual.get_rect(topleft=(self.x, self.y))
 
-    # function to see if the player collided with a flower
-    # if the player collides with a key, set the has_flower and can_double_jump attributes
-    # to True
-    def flower_collide(self, player):
-        if self.generic_collide(player):
-            player.has_flower = True
-            player.can_double_jump = True
-            self.taken = True
+    
+    # if the player collides with a bat in normal size, the game ends
+    # however, if the player collides with a bat in grown size, the bat just chips
+    # their HP
+    def bat_collide(self, player):
+        if self.generic_collide(player) and player.has_grown is True:
+            pass
+        elif self.generic_collide(player) and player.has_grown is False:
+            print("Skill issue")
             return True
         return False

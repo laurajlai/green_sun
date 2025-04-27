@@ -1,4 +1,4 @@
-# level 3 
+# level 5
 
 #import pygame
 import pygame
@@ -8,9 +8,9 @@ from pygame.locals import*
 
 #import assets
 import player
-import block as block
-import key
 import portal
+from lava import Lava
+import flower
 
 #initialize screen constants
 WIDTH = 1395
@@ -21,20 +21,20 @@ pygame.init()
 #create screen object
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-#set background to the first Green Sun level 3 background
-background = pygame.image.load('level_backdrops/green_sun_l3.png')
+#set background to the first Green Sun level 5 background
+background = pygame.image.load('level_backdrops/green_sun_l5.png')
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 #declare instances of objects used in part 1
 player = player.Player()
 player.set_coordinates(player.x, player.y + 20)
-block1 = block.Block('images/green_sun_block.png')
-block1.set_coordinates(block1.x + 100, block1.y + 24)
-block2 = block.Block('images/green_sun_block.png')
-block2.set_coordinates(block1.x + 400, block1.y)
-key1 = key.Key('images/green_sun_key.png')
-key1.set_coordinates(key1.x + 150, key1.y)
+lava1 = Lava('images/green_sun_lava.png')
 portal = portal.Portal('images/green_sun_portal.png')
+lava2 = Lava('images/green_sun_lava.png')
+lava2.set_coordinates(lava1.x + 550, lava1.y)
+flower1 = flower.Flower('images/green_sun_flower.png')
+flower1.set_coordinates(flower1.x-290, flower1.y)
+flower2 = flower.Flower('images/green_sun_flower.png')
 
 #create variable to keep the game running
 running = 1
@@ -53,41 +53,41 @@ while running == 1:
                 running = 0
         elif event.type == QUIT:
             running = 0
-
+    
     # if the player runs into a block, the game ends
-    if(block1.block_collide(player)):
+    if(lava1.lava_collide(player) or lava2.lava_collide(player)):
         running = 0
 
-    # if the player runs into a key, well, uh, it keeps going    
-    if(key1.key_collide(player) and not portal.activated):
+    # similarly, if the player runs into a flower, keep going
+    if(flower1.flower_collide(player) or flower2.flower_collide(player)):
         pass
-
+        
     # if the player gets to the portal, we head to part 2
-    if(portal.portal_collide(player, 'level3_p2.py')):
-        if(player.has_key):
+    if(portal.portal_collide(player, 'level4_p2.py')):
+        if(has_printed):
+            print("Hold on!")
+            has_printed = True
+            running = 2
+        else:
             if(has_printed):
-                print("Hold on!")
+                print("You do not win yet.")
                 has_printed = True
-                running = 2
-            else:
-                if(has_printed):
-                    print("You do not win yet.")
-                    has_printed = True
 
     # arrow key and space controls
     player.handle_keys()
+    flower1.move()
 
     #draw the current objects if the portal has not been touched
     if (not portal.activated):
         screen.blit(background,(0,0))
         screen.blit(player.actual, (player.x, player.y))
-        screen.blit(block1.actual, (block1.x, block1.y))
-        screen.blit(block2.actual, (block2.x, block2.y))
+        screen.blit(lava1.actual, (lava1.x, lava1.y))
+        screen.blit(lava2.actual, (lava2.x, lava2.y))
         screen.blit(portal.actual, (portal.x, portal.y))
 
-        # only blit the key if the player does not have it
-        if(not player.has_key):
-            screen.blit(key1.actual, (key1.x, key1.y))
+        # only blit the flower if the player does not have a flower
+        if(not flower1.taken):
+            screen.blit(flower1.actual, (flower1.x, flower1.y))
 
     pygame.display.flip()
 

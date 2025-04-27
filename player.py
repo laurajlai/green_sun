@@ -3,6 +3,7 @@ import pygame
 #initialize screen constants
 WIDTH = 1395
 HEIGHT = 677
+GROUND = 155
 
 # Player class
 class Player(pygame.sprite.Sprite):
@@ -26,6 +27,9 @@ class Player(pygame.sprite.Sprite):
         #other attributes
         self.has_key = False
         self.has_flower = False
+        self.has_shrunk = False
+        self.has_grown = False
+        self.has_sigil = False
     
     # changes the coordinates of a Block object (needed because there are multiple blocks)
     def set_coordinates(self, x, y):
@@ -46,28 +50,7 @@ class Player(pygame.sprite.Sprite):
             self.x += self.move_size 
             self.rect = self.actual.get_rect(topleft = ((self.x, self.y)))
 
-        """# if not currently in a jump, you can jump (this is to prevent double jumping)
-        if not(self.is_in_jump): 
-            if key[pygame.K_UP] and self.y > self.move_size: # up key
-                #self.y -= self.move_size
-                self.is_in_jump = True
-            if key[pygame.K_DOWN] and self.y < HEIGHT - 155 - 0.25*self.size[1] - self.move_size: # down key
-                self.y += self.move_size
-                self.rect = self.actual.get_rect(topleft = ((self.x, self.y)))
-        else:
-            if self.jumpcount >= -10:
-                is_negative = 1
-                if self.jumpcount < 0:
-                    is_negative = -1
-                # this makes the jump larger, otherwise you're just jumping up in place
-                self.y -= (self.jumpcount ** 2) * 0.5 * is_negative 
-                self.x += 2*self.move_size
-                self.rect = self.actual.get_rect(topleft = ((self.x, self.y)))
-
-                self.jumpcount -= 1
-            else: 
-                self.jumpcount = 10
-                self.is_in_jump = False   """
+        # jump up/down
         if not self.is_in_jump:
             if key[pygame.K_UP] and self.y > self.move_size: # up key
                 self.is_in_jump = True
@@ -77,7 +60,7 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.jump_height_multiplier = 1.0
 
-            if key[pygame.K_DOWN] and self.y < HEIGHT - 155 - 0.25 * self.size[1] - self.move_size: # down key
+            if key[pygame.K_DOWN] and self.y < HEIGHT - GROUND - 0.25 * self.size[1] - self.move_size: # down key
                 self.y += self.move_size
                 self.rect = self.actual.get_rect(topleft=(self.x, self.y))
 
@@ -99,3 +82,22 @@ class Player(pygame.sprite.Sprite):
                 self.is_in_jump = False
                 self.jump_count = 10
 
+    def shrink(self):
+        if self.has_shrunk is False:
+            print("Shrinking!")
+            self.actual = pygame.transform.smoothscale(self.image, (int(self.size[0] * 0.2), int(self.size[1] * 0.2)))
+            self.rect = self.actual.get_rect(topleft=(self.x, self.y))
+            self.y += 26
+            self.has_shrunk = True
+        else:
+            pass
+
+    def grow(self):
+        if self.has_grown is False:
+            print("Growing!")
+            self.actual = pygame.transform.smoothscale(self.image, (int(self.size[0] * 0.7), int(self.size[1] * 0.7)))
+            self.rect = self.actual.get_rect(topleft=(self.x, self.y))
+            self.y -= 260
+            self.has_grown = True
+        else:
+            pass

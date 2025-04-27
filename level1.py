@@ -9,7 +9,7 @@ from pygame.locals import*
 
 # import assets
 import player
-import block
+import block as block
 import key
 import door
 
@@ -23,15 +23,15 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # set background to the Green Sun level 1 background
-background = pygame.image.load('green_sun_l1.png')
+background = pygame.image.load('level_backdrops/green_sun_l1.png')
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 # declare instances of objects
 player = player.Player()
-block1 = block.Block('green_sun_block.png')
-block2 = block.Block('green_sun_block.png')
-key1 = key.Key()
-door = door.Door()
+block1 = block.Block('images/green_sun_block.png')
+block2 = block.Block('images/green_sun_block.png')
+key1 = key.Key('images/green_sun_key.png')
+door = door.Door('images/green_sun_door.png')
 
 # create variable to keep the game running
 running = 1
