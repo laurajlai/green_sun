@@ -1,0 +1,4 @@
+Update log:
+July 24, 2024: files represent Green Sun Alpha, where all assets (i.e. block, player) are independent. This will change in Green Sun Beta, where all assets will inherit from the superclass Asset. 
+
+April 26, 2025: files represent Green Sun Beta, where all assets except for player inherit from the superclass Asset. There are 4 complete levels with the fifth and final level in progress. 
