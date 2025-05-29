@@ -2,11 +2,17 @@
 Hello and welcome to Green Sun! We``'``re so excited to see you play this innovative Pygame platformer.  
 
 ## Running
-To start playing from level 1, run:
+To start playing, run:
 
 ```python3 menu.py```
 
-and choose ``"``start``"``. 
+After running, you're given the below options: 
+
+If you want to play, enter 'level'.
+If you need help, enter 'help'.
+If you want to quit, enter 'quit'.
+
+To start playing level 1, enter 'level' and then enter '1' (the number of the level you want to play). The same applies if you want to start playing from level 5.
 
 (IN PROGRESS)
 To start playing from any level, go to the levels page and select the level you would like to play.
@@ -30,6 +36,6 @@ Grow/Shrink: Pick up a shrink module to become smaller, or pick up a grow module
 
 Bat: Ahh! It``'``s alive! Try to not run into them.
 
-Lava: Hot! Hot! If you run into fire without a sigil, you won``'``t be going much further. 
+Lava: Hot! Hot! If you run into fire, you won``'``t be going much further. 
 
-Fireproof Sigil: Possessing a fireproof sigil allows you to traverse lava without being burned. However, these are not permanent...
+Cannon: These moving gears are fatal for the player. Try to avoid them. 
