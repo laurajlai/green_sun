@@ -1,29 +1,16 @@
 # level 3 
 
-#import pygame
-import pygame
-
-#import pygame.locals for keyboard controls
-from pygame.locals import*
-
 #import assets
+from level_setup import *
 import player
 import block as block
 import key
 import portal
 
-#initialize screen constants
-WIDTH = 1395
-HEIGHT = 677
+screen, clock = setup_pygame()
 
-pygame.init()
-
-#create screen object
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-#set background to the first Green Sun level 3 background
-background = pygame.image.load('level_backdrops/green_sun_l3.png')
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+#set background to the Green Sun level 3 background
+background = setup_background('level_backdrops/green_sun_l3.png')
 
 #declare instances of objects used in part 1
 player = player.Player()
@@ -55,8 +42,9 @@ while running == 1:
             running = 0
 
     # if the player runs into a block, the game ends
-    if(block1.block_collide(player)):
+    if(block1.block_collide(player) or block2.block_collide(player)):
         running = 0
+        death_logic(screen, clock, player, 'level3.py')
 
     # if the player runs into a key, well, uh, it keeps going    
     if(key1.key_collide(player) and not portal.activated):

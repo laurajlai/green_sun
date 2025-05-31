@@ -1,30 +1,16 @@
 # level 1
 
-# import pygame
-import pygame
-import os
-
-# import pygame.locals for keyboard controls
-from pygame.locals import*
-
 # import assets
+from level_setup import *
 import player
 import block as block
 import key
 import door
 
-# initialize screen constants
-WIDTH = 1395
-HEIGHT = 677
-
-pygame.init()
-
-# create screen object
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen, clock = setup_pygame()
 
 # set background to the Green Sun level 1 background
-background = pygame.image.load('level_backdrops/green_sun_l1.png')
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+background = setup_background('level_backdrops/green_sun_l1.png')
 
 # declare instances of objects
 player = player.Player()
@@ -53,11 +39,9 @@ while running:
             running = 0
 
     # if the player runs into a block, the game ends
-    if(block1.block_collide(player)):
-        running = 0
-
-    if(block2.block_collide(player)):
-        running = 0
+    if(block1.block_collide(player) or block2.block_collide(player)):
+        running = 0 
+        death_logic(screen, clock, player, 'level1.py')
 
     # if the player runs into a key, well, uh, it keeps going    
     if(key1.key_collide(player)):

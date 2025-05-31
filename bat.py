@@ -30,12 +30,12 @@ class Bat(Asset):
 
     
     # if the player collides with a bat in normal size, the game ends
-    # however, if the player collides with a bat in grown size, the bat just chips
-    # their HP
+    # however, if the player collides with a bat in grown size, nothing happens
     def bat_collide(self, player):
         if self.generic_collide(player) and player.has_grown is True:
             pass
         elif self.generic_collide(player) and player.has_grown is False:
-            print("Skill issue")
+            player.die()
+            print("Oops!")
             return True
         return False

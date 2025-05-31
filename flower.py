@@ -2,16 +2,16 @@ from asset import Asset
 
 # Flower class
 class Flower(Asset):
-    def __init__(self, block_image):
-        super().__init__(block_image, 446, 400, 1)
+    def __init__(self, flower_image, align):
+        super().__init__(flower_image, 446, 400, 1)
         self.taken = False
         self.move_size = 4
-        self.max = 300
-        self.min = 30
+        self.max = 360
+        self.min = 7
         self.moving_down = True
-   
+        self.align = align
 
-        # the bat moves up and down (observing the ground, of course)
+        # the flower moves up and down (observing the ground, of course)
     def move(self):
         # Move downward
         if self.moving_down:
@@ -36,7 +36,10 @@ class Flower(Asset):
     def flower_collide(self, player):
         if self.generic_collide(player):
             player.has_flower = True
-            player.can_double_jump = True
             self.taken = True
+            if self.align == "vertical":
+                player.can_high_jump = True
+            else:
+                player.can_wide_jump = True
             return True
         return False

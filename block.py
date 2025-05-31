@@ -9,6 +9,7 @@ class Block(Asset):
     # if the player collided with a block, the game ends
     def block_collide(self, player):
         if self.generic_collide(player):
-            print("Skill issue")
+            player.die()
+            print("Oops!")
             return True
         return False

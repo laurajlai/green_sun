@@ -1,32 +1,17 @@
-# level 3 
-
-#import pygame
-import pygame
-import subprocess
-import sys
-
-#import pygame.locals for keyboard controls
-from pygame.locals import*
+# level 3, part 2
 
 #import assets
+from level_setup import *
 import player
 import block as block
 import key
 import door
 import flower
 
-#initialize screen constants
-WIDTH = 1395
-HEIGHT = 677
+screen, clock = setup_pygame()
 
-pygame.init()
-
-#create screen object
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-#set background to the second Green Sun level 3 background
-background = pygame.image.load('level_backdrops/green_sun_l3_p2.png')
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+#set background to the Green Sun level 3 background
+background = setup_background('level_backdrops/green_sun_l3_p2.png')
 
 #declare instances of objects used in part 2
 player = player.Player()
@@ -37,8 +22,8 @@ longblock1 = block.Block('images/green_sun_longblock.png')
 longblock1.set_coordinates(longblock1.x + 100, longblock1.y-75)
 longblock2 = block.Block('images/green_sun_longblock.png')
 longblock2.set_coordinates(longblock1.x + 400, longblock1.y)
-flower1 = flower.Flower('images/green_sun_flower.png')
-flower2 = flower.Flower('images/green_sun_flower.png')
+flower1 = flower.Flower('images/green_sun_flower.png', "vertical")
+flower2 = flower.Flower('images/green_sun_flower.png', "vertical")
 flower2.set_coordinates(flower1.x + 350, flower1.y)
 key = key.Key('images/green_sun_key.png')
 key.set_coordinates(key.x + 420, key.y)
@@ -66,6 +51,7 @@ while running == 1:
     if(block1.block_collide(player) or longblock1.block_collide(player) 
     or longblock2.block_collide(player)):
         running = 0
+        death_logic(screen, clock, player, 'level3_p2.py')
 
     # if the player runs into a key, well, uh, it keeps going    
     if(key.key_collide(player)):

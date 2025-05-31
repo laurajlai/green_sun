@@ -18,11 +18,13 @@ class Player(pygame.sprite.Sprite):
         #player coordinates, movement speed, jump modifiers, and rectangle
         self.x = 100
         self.y = 383
+        self.hp = 30
         self.rect = self.actual.get_rect(topleft = ((self.x, self.y)))
         self.is_in_jump = False
         self.jumpcount = 10
         self.move_size = 5
-        self.can_double_jump = False
+        self.can_high_jump = False
+        self.can_wide_jump = False
 
         #other attributes
         self.has_key = False
@@ -55,7 +57,7 @@ class Player(pygame.sprite.Sprite):
             if key[pygame.K_UP] and self.y > self.move_size: # up key
                 self.is_in_jump = True
                 self.jump_count = 10
-                if self.can_double_jump:
+                if self.can_high_jump:
                     self.jump_height_multiplier = 1.5  # Increase jump height if player has double jump item
                 else:
                     self.jump_height_multiplier = 1.0
@@ -73,9 +75,13 @@ class Player(pygame.sprite.Sprite):
                 # this makes the jump larger, otherwise you're just jumping in place
                 # add jump_height_multiplier if necessary
                 self.y -= (self.jump_count ** 2) * 0.5 * is_negative * self.jump_height_multiplier
-                self.x += 2 * self.move_size
+                if self.can_wide_jump:
+                    self.x += 15 * self.move_size
+                    self.can_wide_jump = False
+                else:
+                    self.x += 2 * self.move_size
                 self.rect = self.actual.get_rect(topleft=(self.x, self.y))
-                self.can_double_jump = False
+                self.can_high_jump = False
 
                 self.jump_count -= 1
             else:
@@ -101,3 +107,8 @@ class Player(pygame.sprite.Sprite):
             self.has_grown = True
         else:
             pass
+    
+    def die(self):
+        self.hp = 0
+        self.image = pygame.image.load('green_sun_player_dead.png').convert_alpha()
+        self.actual = pygame.transform.scale(self.image, (int(self.size[0]*0.35), int(self.size[1]*0.15)))
