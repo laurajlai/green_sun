@@ -1,14 +1,7 @@
 # level 4
 
-#import pygame
-import pygame
-import subprocess
-import sys
-
-#import pygame.locals for keyboard controls
-from pygame.locals import*
-
 #import assets
+from level_setup import *
 import player
 import block
 import button
@@ -16,19 +9,10 @@ import gate
 import growshrink
 import portal
 
-#initialize screen constants
-WIDTH = 1395
-HEIGHT = 677
+screen, clock = setup_pygame()
 
-pygame.init()
-clock = pygame.time.Clock()
-
-#create screen object
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-#set background to the first Green Sun level 4 background
-background = pygame.image.load('level_backdrops/green_sun_l4.png')
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+#set background to the Green Sun level 4 background
+background = setup_background('level_backdrops/green_sun_l4.png')
 
 #declare instances of objects used in part 1
 player = player.Player()
@@ -65,15 +49,8 @@ while running == 1:
 
     # if the player runs into a block, the game ends
     if(block1.block_collide(player) or block2.block_collide(player)):
-        death_time = pygame.time.get_ticks()
-        while pygame.time.get_ticks() - death_time < 1000:
-            screen.blit(player.actual, (player.x, player.y))
-            pygame.display.flip()
-            clock.tick(60)       
-            
         running = 0
-        subprocess.Popen(["python3", 'level4.py'])
-        sys.exit()
+        death_logic(screen, clock, player, 'level4.py')
 
     # if the player runs into the shrink button, they shrink
     if(grow_shrink.growshrink_collide(player)):

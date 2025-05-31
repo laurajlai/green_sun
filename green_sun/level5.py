@@ -1,32 +1,16 @@
 # level 5
 
-#import pygame
-import pygame
-import subprocess
-import sys
-
-#import pygame.locals for keyboard controls
-from pygame.locals import*
-
 #import assets
+from level_setup import *
 import player
 import portal
 from lava import Lava
 import flower
 
-#initialize screen constants
-WIDTH = 1395
-HEIGHT = 677
+screen, clock = setup_pygame()
 
-pygame.init()
-clock = pygame.time.Clock()
-
-#create screen object
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-#set background to the first Green Sun level 5 background
-background = pygame.image.load('level_backdrops/green_sun_l5.png')
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+#set background to the Green Sun level 5 background
+background = setup_background('level_backdrops/green_sun_l5.png')
 
 #declare instances of objects used in part 1
 player = player.Player()
@@ -61,14 +45,8 @@ while running == 1:
     # if the player runs into lava, the game ends
     if lava1.lava_collide(player) or lava2.lava_collide(player):
         if player.hp <= 0:
-            death_time = pygame.time.get_ticks()
-            while pygame.time.get_ticks() - death_time < 1000:
-                screen.blit(player.actual, (player.x, player.y))
-                pygame.display.flip()
-                clock.tick(60)               
-            running = 0
-            subprocess.Popen(["python3", 'level5.py'])
-            sys.exit()
+            running = 0 
+            death_logic(screen, clock, player, 'level5.py')
 
     # similarly, if the player runs into a flower, keep going
     if(flower1.flower_collide(player) or flower2.flower_collide(player)):
